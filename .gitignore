@@ -1,0 +1,11 @@
+# Node.js dependencies
+frontend/node_modules/
+
+# Node.js dependencies
+backend/node_modules/
+
+# Ignore .env file containing sensitive information
+.env
+
+# Log files
+*.log
