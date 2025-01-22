@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useNavigate, NavLink } from "react-router-dom";
 import styled from "styled-components";
 import logo from "../assets/jsl_logo.png"; // Ensure the logo path is correct
+import axios from "axios";
 
 // Styled Components
 const LoginContainer = styled.div`
@@ -119,26 +120,25 @@ const LoginPage = ({ setIsAuthenticated }) => {
   const handleChange = (e) => {
     const { name, value } = e.target;
     setCredentials((prev) => ({ ...prev, [name]: value }));
-    console.log(credentials);
+    //console.log(credentials);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Sample credentials for testing
-    const validCredentials = {
-      email: "user@example.com",
-      password: "user123",
-    };
+    try {
+      const response = await axios.post("http://localhost:5000/api/users/login", credentials);
+      const { token, user } = response.data;
 
-    if (
-      credentials.email === validCredentials.email &&
-      credentials.password === validCredentials.password
-    ) {
-      console.log("Authenticated");
+      // Save the JWT token in localStorage or sessionStorage
+      localStorage.setItem("token", token);
+
+      localStorage.setItem("user", JSON.stringify(user))
+
+      // Set authentication state
       setIsAuthenticated(true);
       navigate("/dashboard"); // Redirect to dashboard
-    } else {
+    } catch (err) {
       setError("Invalid email or password");
     }
   };

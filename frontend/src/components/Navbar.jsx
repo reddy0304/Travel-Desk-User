@@ -74,7 +74,7 @@ const NavLinks = styled.ul`
 
   @media (max-width: 768px) {
     flex-direction: column;
-    display: ${({ isOpen }) => (isOpen ? "flex" : "none")};
+    display: ${({ $isOpen }) => ($isOpen ? "flex" : "none")};
     position: absolute;
     top: 26px;
     right: 0;
@@ -150,7 +150,7 @@ const Navbar = ({ isAuthenticated, handleLogout }) => {
         {/* Links and Right Container */}
         <RightContainer>
           {/* Nav Links for Desktop */}
-          <NavLinks isOpen={isOpen}>
+          <NavLinks $isOpen={isOpen}>
             <NavLinkItem>
               <StyledNavLink to="/dashboard" onClick={() => setIsOpen(false)}>
                 <DashboardOutlined /> Dashboard

@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import logo from "../assets/jsl_logo.png"; // Ensure the logo path is correct
+import axios from "axios";
+
 // Styled Components
 const SignupContainer = styled.div`
   display: flex;
@@ -163,7 +165,7 @@ const SignupPage = () => {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (
@@ -186,10 +188,13 @@ const SignupPage = () => {
       return;
     }
 
-    console.log("User Signed Up with Data:", formData);
-    setError("");
-
-    navigate("/login"); // Redirect to login page
+    try {
+      const response = await axios.post("http://localhost:5000/api/users/register", formData);
+      console.log("User registered successfully:", response.data);
+      navigate("/login"); // Redirect to login page after successful signup
+    } catch (err) {
+      setError("Error during signup. Please try again.");
+    }
   };
 
   return (

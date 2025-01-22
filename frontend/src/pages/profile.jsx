@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useState,useEffect }  from "react";
 import styled from "styled-components";
+import axios from "axios";
 import profilePic from "../assets/profile.png"; // Add a placeholder image or employee profile image
 
 // Styled Components
@@ -85,15 +86,34 @@ const EditButton = styled.button`
 `;
 
 const EmployeeProfilePage = () => {
-  const employee = {
-    name: "Sneha Roy",
-    empId: "EMP008",
-    email: "sneha.roy@jindalstainless.com",
-    gender: "Female",
-    phone: "9123456786",
-    department: "Digitalization",
-    designation: "Assistant Manager",
-  };
+  const [employee, setEmployee] = useState(null); // state to store employee data
+  const [error, setError] = useState(""); // state to store error message
+  const token = localStorage.getItem("token"); // get token from localStorage
+
+  useEffect(() => {
+    // Fetch the user profile data when the component mounts
+    const fetchUserProfile = async () => {
+      try {
+        const response = await axios.get("http://localhost:5000/api/users/profile", {
+          headers: {
+            Authorization: `Bearer ${token}`, // pass the token in the headers
+          },
+        });
+        setEmployee(response.data); // set the employee data to state
+      } catch (err) {
+        setError("Failed to fetch user profile data.");
+      }
+    };
+    if (token) {
+      fetchUserProfile(); // only fetch if there's a token
+    } else {
+      setError("No authentication token found.");
+    }
+  }, [token]);
+   // If the employee data is still being fetched
+  if (!employee) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <ProfileContainer>

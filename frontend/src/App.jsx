@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import React, { useState,useEffect  } from "react";
+import { BrowserRouter as Router, Routes, Route, Navigate ,useNavigate  } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import SignupPage from "./pages/signup" ;
 import LoginPage from "./pages/login";
@@ -13,14 +13,19 @@ import Shuttle from "./pages/shuttle";
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  //const navigate = useNavigate();
 
-  // Mock authentication logic
-  const handleLogin = () => {
-    setIsAuthenticated(true);
-  };
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      setIsAuthenticated(true);
+    }
+  }, []);
+
 
   const handleLogout = () => {
-    setIsAuthenticated(false);
+    localStorage.removeItem("token"); // Clear token from storage
+    setIsAuthenticated(false); // Set authentication state to false
   };
 
   return (
