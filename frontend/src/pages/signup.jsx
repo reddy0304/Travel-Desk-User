@@ -189,7 +189,7 @@ const SignupPage = () => {
     }
 
     try {
-      const response = await axios.post("http://localhost:5000/api/users/register", formData);
+      const response = await axios.post("http://localhost:5001/api/users/register", formData);
       console.log("User registered successfully:", response.data);
       navigate("/login"); // Redirect to login page after successful signup
     } catch (err) {

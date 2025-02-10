@@ -41,9 +41,11 @@ exports.signupUser = async (req, res) => {
 // User login
 exports.loginUser = async (req, res) => {
   const { email, password } = req.body;
+  console.log("recieved credentials");
 
   try {
     const user = await User.findOne({ email });
+    console.log(user);
     if (!user) return res.status(400).json({ message: 'Invalid credentials' });
 
     // Compare entered password with stored password

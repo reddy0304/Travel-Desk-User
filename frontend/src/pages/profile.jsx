@@ -94,7 +94,7 @@ const EmployeeProfilePage = () => {
     // Fetch the user profile data when the component mounts
     const fetchUserProfile = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/api/users/profile", {
+        const response = await axios.get("http://localhost:5001/api/users/profile", {
           headers: {
             Authorization: `Bearer ${token}`, // pass the token in the headers
           },
